@@ -43,6 +43,12 @@ def simple_plot(df, plot_volume=True):
 
 
 class ModelData(object):
+    MODEL_RNN_BASIC = 'basic-rnn'
+    MODEL_RNN_LSTM = 'lstm'
+    MODEL_RNN_LSTM_PEEPHOLE = 'lstm-peephole'
+    MODEL_RNN_GRU = 'gru'
+    ALL_MODELS = [MODEL_RNN_BASIC, MODEL_RNN_LSTM, 
+            MODEL_RNN_LSTM_PEEPHOLE, MODEL_RNN_GRU]
 
     def __init__(self, df, model_name, 
             n_layers=2, n_neurons=200, seq_len=20):
@@ -56,20 +62,20 @@ class ModelData(object):
         np.random.shuffle(self.perm_array)
         self.n_layers = n_layers
         self.n_neurons = n_neurons
-        if model_name == 'basic-rnn':
+        if model_name == ModelData.MODEL_RNN_BASIC:
             self.layers = [tf.keras.layers.SimpleRNNCell(
                 units = self.n_neurons, activation=tf.nn.elu)
                 for _ in range(self.n_layers)]
-        elif model_name == 'lstm':
+        elif model_name == ModelData.MODEL_RNN_LSTM:
             self.layers = [tf.keras.layers.LSTMCell(
                 units = self.n_neurons, activation=tf.nn.elu)
                 for _ in range(self.n_layers)]
-        elif model_name == 'lstm-peephole':
+        elif model_name == ModelData.MODEL_RNN_LSTM_PEEPHOLE:
             self.layers = [tf.keras.layers.LSTMCell(
                 units = self.n_neurons, activation=tf.nn.leaky_relu,
                 use_peepholes = True)
                 for _ in range(self.n_layers)]
-        elif model_name == 'gru':
+        elif model_name == ModelData.MODEL_RNN_GRU:
             self.layers = [tf.keras.layers.GRUCell(
                 units = self.n_neurons, activation=tf.nn.leaky_relu)
                 for _ in range(self.n_layers)]
@@ -164,8 +170,8 @@ class ModelData(object):
                             feed_dict = {X: self.x_train, y: self.y_train})
                     mse_valid = loss.eval(
                             feed_dict = {X: self.x_valid, y: self.y_valid})
-                    print('%.2f epochs: MSE train/valid = %.6f/%.6f' %\
-                            (iteration * batch_size / train_set_size, 
+                    print('%d epochs: MSE train/valid = %.6f/%.6f' %\
+                            (math.ceil(iteration * batch_size / train_set_size), 
                                 mse_train, mse_valid))
 
             self.y_train_pred = sess.run(outputs, feed_dict = {X: self.x_train})
@@ -293,9 +299,14 @@ def load_data(filename):
 
 
 if __name__ == '__main__':
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     df = load_data(filename='./data/SH000001.csv')
-    md = ModelData(df.copy(), 'basic-rnn')
-    md.train()
-    md.visualize()
-    #md.predict_by_averaging()
-    #md.predict_by_ema()
+    for model_name in ModelData.ALL_MODELS:
+        md = ModelData(df.copy(), model_name)
+        md.train()
+        md.visualize()
+        break
+
+    md.predict_by_averaging()
+    md.predict_by_ema()
+

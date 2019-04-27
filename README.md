@@ -17,7 +17,7 @@ This is our group project of the course「Machine Learning」. The main idea is 
 
 
 
-Refs:
+### Refs:
 
 1. <a href="https://www.datacamp.com/community/tutorials/lstm-python-stock-market#download">Stock Market Predictions with LSTM in Python</a><br />
 2. <a href="https://www.kaggle.com/raoulma/ny-stock-price-prediction-rnn-lstm-gru">NY Stock Price Prediction RNN LSTM GRU</a>
