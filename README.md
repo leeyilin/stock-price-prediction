@@ -3,6 +3,7 @@
 ### This is our group project of the course「Machine Learning」. The main idea is to use neural network to do price prediction as well as to learn the features of the stock market.
 <br />
 ## Change-Log
+<br />
 ### 2019.04.26
 1. At the momoent the implemented algorithms are **rnn**, **lstm**, **lstm-peephole** and **gru**. To compare RNNs with some other algorithms, I include another two algorithms, averaging and EMA.
 
