@@ -1,6 +1,6 @@
 # Stock Price Prediction
 
-### This is our group project of the course「Machine Learning」. The main idea is to use neural network to do price prediction as well as to learn the features of the stock market.
+This is our group project of the course「Machine Learning」. The main idea is to use neural network to do price prediction as well as to learn the features of the stock market.
 <br />
 ## Change-Log
 <br />
